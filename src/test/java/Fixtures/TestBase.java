@@ -19,7 +19,7 @@ public class TestBase {
     @BeforeAll
     public static void setUp(){
         Configuration.remote = "http://192.168.100.100:4444/wd/hub";
-        Configuration.browser = "firefox";
+        //Configuration.browser = "firefox";
         Configuration.headless = true;
         Configuration.browserSize = "1920x1080";
         Configuration.fastSetValue = true;
