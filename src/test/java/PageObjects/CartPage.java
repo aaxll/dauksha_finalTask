@@ -81,7 +81,7 @@ public class CartPage {
         int currentValueInt = Integer.parseInt(currentValue);
         $("i.icon-minus").click();
         if (currentValueInt == 1){
-            $(qty).shouldNotBe(Condition.attribute("value", String.valueOf(currentValueInt)));
+            $(qty).shouldHave(Condition.attribute("value", String.valueOf(currentValueInt)));
         }
         else {
             $(qty).shouldHave(Condition.attribute("value", String.valueOf(currentValueInt - 1)));
