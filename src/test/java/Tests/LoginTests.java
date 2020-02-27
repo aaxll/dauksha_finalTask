@@ -14,7 +14,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 @Epic(value = "Login")
 @Feature(value = "Basic user sign in functionality")
-@ExtendWith(TextReportExtension.class)
 public class LoginTests extends LoginTestsFixture {
 
     @Test

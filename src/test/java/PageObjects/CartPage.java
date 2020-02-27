@@ -4,11 +4,15 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
+import org.openqa.selenium.By;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
+import static org.openqa.selenium.By.cssSelector;
 
 public class CartPage {
+
+    private By qty = cssSelector("td.cart_quantity>input[type=\"hidden\"]");
 
     @Step(value = "Check product availability in cart")
     public void isProductExistInCart(boolean condition){
@@ -30,7 +34,6 @@ public class CartPage {
     @Step(value = "Check product prices logic")
     public void checkPrices(){
         SelenideElement oneProduct;
-        String oneProductPriceStr;
         float totalShippingPrice;
         float totalTaxPrice;
         float totalPriceWithShipping = 0;
@@ -48,10 +51,10 @@ public class CartPage {
             oneProduct = allProductsInCart.get(i);
             oneProductPrice = priceToFloat(oneProduct.$("td.cart_unit>span.price>span.price"));
             System.out.println(oneProduct.$("input.cart_quantity_input").getText());
-            productQty = Float.parseFloat(oneProduct.$("td.cart_quantity>input[type=\"hidden\"]").getAttribute("value"));
+            productQty = Float.parseFloat(oneProduct.$(qty).getAttribute("value"));
             oneProductTotalPrice = oneProductPrice*productQty;
             step("Check total price for each product in cart (productPrice*Qty)");
-            oneProduct.$("span.price").shouldBe(Condition.text("$"+oneProductTotalPrice));
+            oneProduct.$("td.cart_total>span.price").shouldBe(Condition.text("$"+oneProductTotalPrice));
             totalPriceWithoutShippingAndTax = totalPriceWithoutShippingAndTax + oneProductTotalPrice;
             totalPriceWithShipping = totalPriceWithoutShippingAndTax + totalShippingPrice;
             totalPriceWithShippingAndTax = totalPriceWithShipping + totalTaxPrice;
@@ -62,6 +65,27 @@ public class CartPage {
         $("#total_price_without_tax").shouldBe(Condition.text("$"+ roundPrice(totalPriceWithShipping)));
         step("Check total price for all products in cart with shipping and tax");
         $("#total_price").shouldBe(Condition.text("$"+ roundPrice(totalPriceWithShippingAndTax)));
+    }
+
+    @Step(value = "Click plus icon to increase qty of products in cart")
+    public void clickPlusIcon(){
+        String currentValue = $(qty).getAttribute("value");
+        int currentValueInt = Integer.parseInt(currentValue);
+        $("i.icon-plus").click();
+        $(qty).shouldHave(Condition.attribute("value", String.valueOf(currentValueInt+1)));
+        }
+
+    @Step(value = "Click minus icon to decrease qty of products in cart")
+    public void clickMinusIcon(){
+        String currentValue = $(qty).getAttribute("value");
+        int currentValueInt = Integer.parseInt(currentValue);
+        $("i.icon-minus").click();
+        if (currentValueInt == 1){
+            $(qty).shouldNotBe(Condition.attribute("value", String.valueOf(currentValueInt)));
+        }
+        else {
+            $(qty).shouldHave(Condition.attribute("value", String.valueOf(currentValueInt - 1)));
+        }
     }
 
     public float roundPrice(float price){

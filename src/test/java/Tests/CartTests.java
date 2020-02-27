@@ -1,18 +1,17 @@
 package Tests;
 
 import Fixtures.CartTestsFixture;
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.junit5.TextReportExtension;
 import io.qameta.allure.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import static com.codeborne.selenide.Selenide.open;
-import static com.codeborne.selenide.Selenide.sleep;
+import static com.codeborne.selenide.Selenide.*;
 
 @Epic(value = "Cart")
 @Feature(value = "Basic cart functionality")
-@ExtendWith(TextReportExtension.class)
 public class CartTests extends CartTestsFixture {
 
     @Test
@@ -21,10 +20,6 @@ public class CartTests extends CartTestsFixture {
     @Severity(SeverityLevel.BLOCKER)
     public void addProductFromProductPage(){
         cartPage.isProductExistInCart(true);
-        sleep(10000);
-        productPage.addCustomProductToCart("/?id_product=2&controller=product#/size-s/color-black");
-        cartPage.checkPrices();
-
     }
 
     @Test
@@ -35,5 +30,46 @@ public class CartTests extends CartTestsFixture {
         cartPage.isProductExistInCart(true);
         cartPage.deleteProductFromCart();
         cartPage.isProductExistInCart(false);
+    }
+
+    @Test
+    @DisplayName(value = "[cart-3] Check prices with single product in cart")
+    @Description(value = "Only one product in cart")
+    @Severity(SeverityLevel.CRITICAL)
+    public void pricesWithSingleProduct(){
+        cartPage.checkPrices();
+    }
+
+    @Test
+    @DisplayName(value = "[cart-4] Check prices with multiple products in cart")
+    @Description(value = "Multiple products in cart")
+    @Severity(SeverityLevel.CRITICAL)
+    public void pricesWithMultipleProducts(){
+        cartPage.checkPrices();
+        productPage.addCustomProductToCart("/?id_product=2&controller=product#/size-s/color-black");
+        cartPage.checkPrices();
+    }
+
+    @Test
+    @DisplayName(value = "[cart-5] Check prices after changing qty by +/- icons")
+    @Description(value = "Prices must be updated after qty changing")
+    @Severity(SeverityLevel.CRITICAL)
+    public void pricesAfterQtyChanging(){
+        cartPage.checkPrices();
+        cartPage.clickPlusIcon();
+        cartPage.checkPrices();
+        cartPage.clickMinusIcon();
+        cartPage.checkPrices();
+    }
+
+    @Test
+    @DisplayName(value = "[cart-6] Product exists after press minus icon")
+    @Description(value = "Check if product not removed after pressing minus icon")
+    @Severity(SeverityLevel.CRITICAL)
+    public void productExistsAfterMinusButton(){
+        cartPage.clickMinusIcon();
+        sleep(500);
+        cartPage.isProductExistInCart(true);
+
     }
 }
