@@ -11,7 +11,7 @@ public class ProductPage {
     @Step(value = "Add product to cart from its page")
     public void addProductToCartFromProductPage(){
         $("button.exclusive").click();
-        $("div.layer_cart_product h2").shouldBe(Condition.visible);
+        $("span.cross").shouldBe(Condition.visible).click();
     }
 
     @Step(value = "Add additional custom product to cart")
