@@ -20,7 +20,7 @@ public class TestBase {
     public static void setUp(){
         Configuration.remote = "http://192.168.100.100:4444/wd/hub";
         //Configuration.browser = "chrome";
-        Configuration.headless = false;
+        Configuration.headless = true;
         Configuration.browserSize = "1920x1080";
         Configuration.fastSetValue = true;
         Configuration.baseUrl = "http://automationpractice.com/index.php";
