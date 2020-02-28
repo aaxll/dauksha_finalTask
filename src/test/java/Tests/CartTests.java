@@ -66,10 +66,10 @@ public class CartTests extends CartTestsFixture {
     @DisplayName(value = "[cart-6] Product exists after press minus icon")
     @Description(value = "Check if product not removed after pressing minus icon")
     @Severity(SeverityLevel.CRITICAL)
-    public void productExistsAfterMinusButton(){
+    public void productNotExistsAfterMinusButton(){
         cartPage.clickMinusIcon();
         sleep(500);
-        cartPage.isProductExistInCart(true);
+        cartPage.isProductExistInCart(false);
 
     }
 }

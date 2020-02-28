@@ -23,6 +23,7 @@ public class TestBase {
         Configuration.headless = true;
         Configuration.browserSize = "1920x1080";
         Configuration.fastSetValue = true;
+        Configuration.timeout = 10000;
         Configuration.baseUrl = "http://automationpractice.com/index.php";
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("enableVNC", true);
