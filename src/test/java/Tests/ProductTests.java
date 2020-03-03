@@ -37,4 +37,37 @@ public class ProductTests extends ProductTestFixture {
         productPage.setProductQty("0");
         productPage.checkInputHighlight();
     }
+
+    @Test
+    @DisplayName(value = "[pp-4] Add zero product qty to cart")
+    @Description(value = "When you try to add a product with zero qty, an error message appears.")
+    @Severity(SeverityLevel.MINOR)
+    public void productZeroQtyToCart(){
+        productPage.setProductQty("0");
+        productPage.clickAddToCartBtn();
+        productPage.checkErrorMessage();
+        cartPage.goToCartPage();
+        cartPage.isProductExistInCart(false);
+    }
+
+    @Test
+    @DisplayName(value = "[pp-5] Show all pictures anchor on product page")
+    @Description(value = "All pictures from the product description are displayed by clicking “Display all pictures”")
+    @Severity(SeverityLevel.MINOR)
+    public void displayAllPictures(){
+        productPage.clickDisplayAllPictures();
+        productPage.checkPicturesVisibility();
+    }
+
+    @Test
+    @DisplayName(value = "[pp-6] Add to wishlist feature")
+    @Description(value = "The product must be added to the user's wish list")
+    @Severity(SeverityLevel.NORMAL)
+    public void addToWishList(){
+        productPage.clickAddToWishlist();
+        productPage.checkWishlistMessage();
+        wishlistPage.goWishlistPage();
+        wishlistPage.isProductExistInWishlist();
+
+    }
 }

@@ -6,15 +6,19 @@ import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$$;
+import static com.codeborne.selenide.Selenide.*;
 import static org.openqa.selenium.By.cssSelector;
 
 public class CartPage {
 
     private By qty = cssSelector("td.cart_quantity>input[type=\"hidden\"]");
 
-    @Step(value = "Check product availability in cart")
+    @Step(value = "Go to cart page")
+    public void goToCartPage(){
+        open("/?controller=order");
+    }
+
+    @Step(value = "Check if product exist in cart")
     public void isProductExistInCart(boolean condition){
         if (condition)
         {
@@ -86,6 +90,12 @@ public class CartPage {
         else {
             $(qty).shouldHave(Condition.attribute("value", String.valueOf(currentValueInt - 1)));
         }
+    }
+
+    @Step(value = "Click checkout button")
+    public OrderPage clickCheckoutBtn(){
+        $("a.button.btn.btn-default.standard-checkout").click();
+        return page(OrderPage.class);
     }
 
     public float roundPrice(float price){

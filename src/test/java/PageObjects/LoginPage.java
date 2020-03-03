@@ -4,10 +4,14 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
 
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.page;
+import static com.codeborne.selenide.Selenide.*;
 
 public class LoginPage {
+
+    @Step(value = "Go to login page")
+    public void goToLoginPage(){
+        open("/?controller=authentication&back=my-account");
+    }
 
     @Step(value = "Login user with:")
     public MyAccountPage loginUser(String login, String password){
